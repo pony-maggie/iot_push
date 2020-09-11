@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 链接参数配置
- *
+ * 客户端连接参数
  * @author lxr
  * @create 2018-01-04 16:13
  **/

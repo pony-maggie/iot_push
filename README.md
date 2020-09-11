@@ -45,7 +45,10 @@
     
   * 编码 [java](https://github.com/1ssqq1lxr/iot_push/blob/master/iot_push_client_starter_test/src/main/java/com/lxr/iot/example/MqttMain.java)
     
- ### 交流群号 658212670
+## how to start
+
+1. 启动iot_push_server_starter_test工程，会启动服务端，监听1884端口
+
 
  
 

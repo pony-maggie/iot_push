@@ -50,7 +50,15 @@ public abstract class AbstractBootstrapServer implements BootstrapServer {
             if(!ObjectUtils.allNotNull(serverBean.getJksCertificatePassword(),serverBean.getJksFile(),serverBean.getJksStorePassword())){
                 throw  new NullPointerException("SSL file and password is null");
             }
-            initSsl(serverBean);
+
+            /**
+             * netty 内置了对SSL的支持
+             *
+             * Netty extends Java's SSL engine to add functionality that makes it more suitable for Nettybased applications.
+             * It ships a ChannelHandler called SslHandler that wraps an
+             * SslEngine for decryption and encryption of its network traffic
+             */
+            initSsl(serverBean);//这个方法的目的是初始化SSLContext
             SSLEngine engine =
                     SERVER_CONTEXT.createSSLEngine();
             engine.setUseClientMode(false);
@@ -93,8 +101,17 @@ public abstract class AbstractBootstrapServer implements BootstrapServer {
     }
 
     private void initSsl(InitBean serverBean){
+        //这里线程池没有任何意义
         ExecutorService executorService = Executors.newCachedThreadPool();
         executorService.submit(() -> {});
+
+        /**
+         * The default algorithm is defined by the security property "ssl.keyManagerFactory.algorithm"
+         * in <JRE_HOME>/lib/security/java.security, and is by default "SunX509" in Oracle and "IbmX509"
+         * in IBM JREs (at least for Java 8).
+         *
+         * ssl.KeyManagerFactory.algorithm 这是java安全包里内置的一个属性
+         */
         String algorithm = SystemPropertyUtil.get("ssl.KeyManagerFactory.algorithm");
         if (algorithm == null) {
             algorithm = "SunX509";

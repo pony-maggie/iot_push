@@ -50,6 +50,8 @@ public class NettyBootstrapServer extends AbstractBootstrapServer {
 
     /**
      * 服务开启
+     *
+     * option主要是针对boss线程组，childOption主要是针对worker线程组
      */
     public void start() {
         initEventPool();
@@ -67,7 +69,8 @@ public class NettyBootstrapServer extends AbstractBootstrapServer {
                 .childOption(ChannelOption.TCP_NODELAY, serverBean.isTcpNodelay())
                 .childOption(ChannelOption.SO_KEEPALIVE, serverBean.isKeepalive())
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-        bootstrap.bind(IpUtils.getHost(),serverBean.getPort()).addListener((ChannelFutureListener) channelFuture -> {
+//        IpUtils.getHost()
+        bootstrap.bind("127.0.0.1",serverBean.getPort()).addListener((ChannelFutureListener) channelFuture -> {
             if (channelFuture.isSuccess())
                 log.info("服务端启动成功【" + IpUtils.getHost() + ":" + serverBean.getPort() + "】");
             else

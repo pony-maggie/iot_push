@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author lxr
  * @create 2017-11-29 19:52
+ *
+ * @EnableConfigurationProperties注解的作用是：使使用 @ConfigurationProperties 注解的类生效。
  **/
 @Configuration
 @ConditionalOnClass
@@ -38,6 +40,12 @@ public class ServerAutoConfigure {
     }
 
 
+    /**
+     * iot_push_server_starter_test工程启动，会配置ServerAutoConfigure，然后InitServer这个bean创建完成后，
+     * open方法会被调用。启动服务器
+     * @param serverBean
+     * @return
+     */
 
     @Bean(initMethod = "open", destroyMethod = "close")
     @ConditionalOnMissingBean
